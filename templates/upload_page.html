@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File and Share Secret</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('static/cloud-security-and-principles.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .upload-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .floating-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 100%;
+            max-width: 500px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .card-header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #34495e;
+            font-size: 14px;
+        }
+
+        .form-group input[type="file"],
+        .form-group input[type="text"],
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group input::placeholder {
+            color: #95a5a6;
+        }
+
+        .btn-upload {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-upload:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-links {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .success-message {
+            background: rgba(39, 174, 96, 0.1);
+            border: 1px solid #27ae60;
+            color: #229954;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+        }
+
+        @media (max-width: 480px) {
+            .floating-card {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+            
+            .card-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <div class="floating-card">
+            <div class="card-header">
+                <h1>📤 Upload File and Share Secret</h1>
+            </div>
+            
+            <div class="success-message" id="successMessage" style="display: none;">
+                File uploaded successfully! Shares have been sent to employees via email.
+            </div>
+            
+            <form method="POST" action="/upload" enctype="multipart/form-data" id="uploadForm">
+                <div class="form-group">
+                    <label for="file">📁 Select file to upload:</label>
+                    <div class="input-icon">
+                        <input type="file" name="file" id="file" required>
+                        <i class="fas fa-file-upload"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="secret">🔐 Enter Secret:</label>
+                    <div class="input-icon">
+                        <input type="text" name="secret" id="secret" required placeholder="Enter your secret key">
+                        <i class="fas fa-key"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="threshold">🔢 Enter Threshold (k):</label>
+                    <div class="input-icon">
+                        <input type="number" name="threshold" id="threshold" required min="2" placeholder="Minimum shares needed">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-upload">🚀 Upload and Share</button>
+            </form>
+            
+            <div class="nav-links">
+                <a href="/list-files">📋 View Files</a> | <a href="/logout">🚪 Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle form submission and show success message
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = '🔄 Uploading...';
+            
+            fetch('/upload', {
+                method: 'POST',
+                body: formData,
+                // Important: Don't set Content-Type header for FormData
+                // Browser will set it automatically with boundary
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Show success message briefly
+                const successMsg = document.getElementById('successMessage');
+                successMsg.style.display = 'block';
+                
+                setTimeout(() => {
+                    if (data.redirect) {
+                        // Redirect to prevent form resubmission
+                        window.location.href = data.redirect;
+                    } else {
+                        // Show success message
+                        alert(data.message);
+                        // Reset form
+                        submitButton.disabled = false;
+                        submitButton.textContent = '🚀 Upload and Share';
+                        successMsg.style.display = 'none';
+                    }
+                }, 2000); // Show message for 2 seconds
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Upload failed: ' + error.message);
+                // Reset form
+                submitButton.disabled = false;
+                submitButton.textContent = '🚀 Upload and Share';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Files</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('static/cloud-security-and-principles.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .files-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .info-note {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            border-left: 4px solid #3498db;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .files-grid {
+            display: grid;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .file-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .file-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .file-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .file-icon {
+            font-size: 2rem;
+            color: #667eea;
+            margin-right: 15px;
+        }
+
+        .file-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            flex: 1;
+        }
+
+        .threshold-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .download-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .share-input {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .share-input input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            box-sizing: border-box;
+        }
+
+        .share-input input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .share-input input::placeholder {
+            color: #95a5a6;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
+
+        .nav-links {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .no-files {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .download-form {
+                flex-direction: column;
+            }
+            
+            .share-input {
+                min-width: 100%;
+            }
+            
+            .btn-download {
+                width: 100%;
+            }
+        }
+    </style>
+    <script>
+        function validateShares(form) {
+            const shareInputs = form.querySelectorAll('input[name^="s"][name$="1"]');
+            
+            for (let input of shareInputs) {
+                if (!input.value) {
+                    alert('Please fill in all share values before downloading.');
+                    return false;
+                }
+                
+                if (isNaN(input.value)) {
+                    alert('All shares must be valid numbers.');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <div class="files-container">
+        <h1>📂 Files in S3 Bucket</h1>
+        
+        <div class="info-note">
+            <strong>Note:</strong> Enter the share values you received via email. These should be 6-digit PINs.
+        </div>
+        
+        <div class="files-grid">
+            {% for file in files %}
+            <div class="file-card">
+                <div class="file-header">
+                    <div class="file-icon">📄</div>
+                    <div class="file-name">{{ file }}</div>
+                    <div class="threshold-badge">Threshold: {{ file_thresholds.get(file, 3) }}</div>
+                </div>
+                
+                <form method="POST" action="/download/{{ file }}" onsubmit="return validateShares(this)" class="download-form">
+                    {% set threshold = file_thresholds.get(file, 3) %}
+                    {% for i in range(threshold) %}
+                    <div class="share-input">
+                        <input type="number" name="s{{ i + 1 }}1" id="s{{ i + 1 }}1_{{ loop.index }}" placeholder="Share {{ i + 1 }} (6-digit PIN)" required min="1" step="1">
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn-download">📥 Download</button>
+                </form>
+            </div>
+            {% else %}
+            <div class="no-files">
+                <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
+                No files found in the bucket.
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="nav-links">
+            <a href="/upload">📤 Upload File</a> | <a href="/logout">🚪 Logout</a>
+        </div>
+    </div>
+</body>
+</html>

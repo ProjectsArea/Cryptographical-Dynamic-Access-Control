@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello {{name}}</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('static/cloud-security-and-principles.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #333;
+            min-height: 100vh;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .floating-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .card-content {
+            text-align: center;
+        }
+
+        .card-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .protected-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="{{url_for('logout_logic')}}" class="logout-btn">Logout</a>
+    
+    <div class="main-container">
+        <h2>Welcome, {{name}} 😊</h2>
+        
+        <div class="cards-grid">
+            <!-- Project Details Card -->
+            <div class="floating-card">
+                <div class="card-title">📊 Project Information</div>
+                <div class="card-content">
+                    <form action="/protected" method="post" class="card-buttons">
+                        <button type="submit" value="project details" name="role" class="btn btn-primary">View Project Details</button>
+                    </form>
+                    {% if infotype=='project details' %}
+                        <div class="protected-content">
+                            <h4>{{ protected_msg }}</h4>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Employee Details Card (Admin Only) -->
+            {% if role == 'ADMIN' %}
+            <div class="floating-card">
+                <div class="card-title">👥 Employee Management</div>
+                <div class="card-content">
+                    <form action="/protected" method="post" class="card-buttons">
+                        <button type="submit" value="employee_details" name="role" class="btn btn-warning">View Employee Details</button>
+                    </form>
+                    {% if protected_msg and infotype == 'employee_details' %}
+                        <div class="protected-content">
+                            <h3>Employee Details</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for emp in protected_msg %}
+                                    <tr>
+                                        <td>{{ emp['user_id'] }}</td>
+                                        <td>{{ emp['first name'] }}</td>
+                                        <td>{{ emp['last name'] }}</td>
+                                        <td>{{ emp['email'] }}</td>
+                                        <td>{{ emp['role'] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Company Details Card -->
+            <div class="floating-card">
+                <div class="card-title">🏢 Company Information</div>
+                <div class="card-content">
+                    <form action="/protected" method="post" class="card-buttons">
+                        <button type="submit" value="firm details" name="role" class="btn btn-success">View Company Details</button>
+                    </form>
+                    {% if infotype=='firm details' %}
+                        <div class="protected-content">
+                            <h4>{{ protected_msg }}</h4>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- File Management Card -->
+            <div class="floating-card">
+                <div class="card-title">📁 File Management</div>
+                <div class="card-content">
+                    <div class="card-buttons">
+                        {% if role == 'ADMIN' %}
+                            <a href="/upload" class="btn btn-primary">📤 Upload File</a>
+                            <a href="/list-files" class="btn btn-success">📋 List Files</a>
+                        {% elif role == 'MANAGER' %}
+                            <a href="/list-files" class="btn btn-success">📋 View and Download Files</a>
+                        {% elif role == 'EMPLOYEE' %}
+                            <a href="/list-files" class="btn btn-success">📋 View Files</a>
+                            <p class="note">File upload is restricted to administrators and managers only.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

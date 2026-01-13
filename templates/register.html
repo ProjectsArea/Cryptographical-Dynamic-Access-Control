@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>REGISTER</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('static/cloud-security-and-principles.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .register-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .floating-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 100%;
+            max-width: 500px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .card-header .title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-header .subtitle {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-top: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #34495e;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group input::placeholder {
+            color: #95a5a6;
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid #e74c3c;
+            color: #c0392b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+        }
+
+        @media (max-width: 480px) {
+            .floating-card {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+            
+            .card-header .title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="floating-card">
+            <div class="card-header">
+                <div class="title">Welcome</div>
+                <div class="subtitle">Let's create your account!</div>
+            </div>
+            
+            {%if error %}
+            <div class="error-message">
+                {{error}}
+            </div>
+            {%endif%}
+            
+            <form action="/register" method="post">
+                <div class="form-group">
+                    <label for="firstname">First name</label>
+                    <div class="input-icon">
+                        <input id="firstname" class="input" type="text" required maxlength="10" name="first_name" placeholder="Enter your first name">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname">Last name</label>
+                    <div class="input-icon">
+                        <input id="lastname" class="input" type="text" required maxlength="10" name="last_name" placeholder="Enter your last name">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-icon">
+                        <input id="email" class="input" type="email" required maxlength="50" name="email" placeholder="Enter your email">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <div class="input-icon">
+                        <select name='role' id="role" class='input' required>
+                            <option value="">__select__</option>
+                            <option value='MANAGER'>MANAGER</option>
+                            <option value='ADMIN'>ADMIN</option>
+                            <option value="EMPLOYEE">EMPLOYEE</option>
+                        </select>
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="passwd">Password</label>
+                    <div class="input-icon">
+                        <input id="passwd" type="password" class='input' required maxlength="20" minlength="8" name="passwd" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" placeholder="Enter your password">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="passwd_re">Confirm Password</label>
+                    <div class="input-icon">
+                        <input id="passwd_re" type="password" class='input' required maxlength="20" minlength="8" name="passwd_re" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" placeholder="Confirm your password">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-register">Register</button>
+            </form>
+            
+            <div class="login-link">
+                <p>Already have an account? <a href="{{url_for('login_page')}}">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

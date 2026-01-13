@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ infotype | title }} - CRYPT-DAC System</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('static/cloud-security-and-principles.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h2 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .floating-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-section h4 {
+            color: #34495e;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-section h4 i {
+            margin-right: 10px;
+            color: #667eea;
+        }
+
+        .info-section p, .info-section li {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            padding-left: 25px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .feature-item i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .feature-item h5 {
+            margin: 0 0 5px 0;
+            color: #2c3e50;
+            font-size: 1rem;
+        }
+
+        .feature-item p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 24px;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .role-badge {
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .role-admin {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .role-manager {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .role-employee {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="{{url_for('logout_logic')}}" class="logout-btn">Logout</a>
+    
+    <div class="details-container">
+        <div class="page-header">
+            <h2>{{ infotype | title }}</h2>
+        </div>
+
+        {% if infotype == 'project details' %}
+        <div class="content-grid">
+            <div class="floating-card">
+                <div class="card-header">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">CRYPT-DAC Project</h3>
+                </div>
+                
+                <div class="info-section">
+                    <h4><i class="fas fa-bullseye"></i> Project Overview</h4>
+                    <p>CRYPT-DAC is an advanced cryptographic system implementing Distributed Access Control with secure file sharing capabilities using Shamir's Secret Sharing algorithm.</p>
+                </div>
+
+                <div class="info-section">
+                    <h4><i class="fas fa-shield-alt"></i> Key Features</h4>
+                    <ul>
+                        <li><strong>AES-256 Encryption</strong> - Military-grade file encryption</li>
+                        <li><strong>RSA Key Wrapping</strong> - Secure key distribution mechanisms</li>
+                        <li><strong>Shamir's Secret Sharing</strong> - Threshold-based access control</li>
+                        <li><strong>Role-Based Access</strong> - Granular permission management</li>
+                        <li><strong>AWS S3 Integration</strong> - Scalable cloud storage</li>
+                    </ul>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-lock"></i>
+                        <h5>End-to-End Encryption</h5>
+                        <p>Files encrypted before storage</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-users"></i>
+                        <h5>Collaborative Access</h5>
+                        <p>Multiple users with threshold requirements</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-key"></i>
+                        <h5>Key Management</h5>
+                        <p>Automatic RSA key generation</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud"></i>
+                        <h5>Cloud Storage</h5>
+                        <p>AWS S3 secure integration</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="floating-card">
+                <div class="card-header">
+                    <div class="card-icon">📊</div>
+                    <h3 class="card-title">Project Statistics</h3>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">256</div>
+                        <div class="stat-label">AES Encryption Bits</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2048</div>
+                        <div class="stat-label">RSA Key Length</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3+</div>
+                        <div class="stat-label">Threshold Configurable</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime SLA</div>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h4><i class="fas fa-code-branch"></i> Technology Stack</h4>
+                    <ul>
+                        <li><strong>Backend:</strong> Python Flask with JWT authentication</li>
+                        <li><strong>Cryptography:</strong> PyCryptodome for AES/RSA operations</li>
+                        <li><strong>Storage:</strong> AWS S3 with secure bucket policies</li>
+                        <li><strong>Frontend:</strong> Modern HTML5 with responsive design</li>
+                        <li><strong>Security:</strong> bcrypt password hashing, CSRF protection</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% elif infotype == 'firm details' %}
+        <div class="content-grid">
+            <div class="floating-card">
+                <div class="card-header">
+                    <div class="card-icon">🏢</div>
+                    <h3 class="card-title">Company Information</h3>
+                </div>
+                
+                <div class="info-section">
+                    <h4><i class="fas fa-building"></i> About Our Organization</h4>
+                    <p>We are a leading technology company specializing in secure data management and cryptographic solutions. Our mission is to provide enterprise-grade security solutions that protect sensitive information while enabling seamless collaboration.</p>
+                </div>
+
+                <div class="info-section">
+                    <h4><i class="fas fa-trophy"></i> Company Achievements</h4>
+                    <ul>
+                        <li><strong>ISO 27001 Certified</strong> - Information Security Management</li>
+                        <li><strong>SOC 2 Type II Compliant</strong> - Security and Availability</li>
+                        <li><strong>GDPR Compliant</strong> - Data Protection Regulations</li>
+                        <li><strong>10+ Years</strong> in Enterprise Security Solutions</li>
+                        <li><strong>500+ Clients</strong> across various industries</li>
+                    </ul>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-globe"></i>
+                        <h5>Global Presence</h5>
+                        <p>Operations in 15+ countries</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-award"></i>
+                        <h5>Industry Awards</h5>
+                        <p>Multiple security innovation awards</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-certificate"></i>
+                        <h5>Certified Experts</h5>
+                        <p>50+ security professionals</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-handshake"></i>
+                        <h5>Partners</h5>
+                        <p>Strategic technology alliances</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="floating-card">
+                <div class="card-header">
+                    <div class="card-icon">📈</div>
+                    <h3 class="card-title">Business Metrics</h3>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Client Satisfaction</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Support Available</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1M+</div>
+                        <div class="stat-label">Files Secured Daily</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Security Uptime</div>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h4><i class="fas fa-envelope"></i> Contact Information</h4>
+                    <ul>
+                        <li><strong>Headquarters:</strong> 123 Tech Park, Innovation City, 12345</li>
+                        <li><strong>Phone:</strong> +1 (555) 123-4567</li>
+                        <li><strong>Email:</strong> security@cryptdac.com</li>
+                        <li><strong>Website:</strong> www.cryptdac.com</li>
+                        <li><strong>Support:</strong> support@cryptdac.com</li>
+                    </ul>
+                </div>
+
+                <div class="info-section">
+                    <h4><i class="fas fa-briefcase"></i> Industries Served</h4>
+                    <ul>
+                        <li>Financial Services & Banking</li>
+                        <li>Healthcare & Medical Records</li>
+                        <li>Legal & Compliance</li>
+                        <li>Government & Public Sector</li>
+                        <li>Technology & SaaS Providers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% elif infotype == 'employee_details' and role == 'ADMIN' %}
+        <div class="floating-card">
+            <div class="card-header">
+                <div class="card-icon">👥</div>
+                <h3 class="card-title">Employee Management</h3>
+            </div>
+            
+            <div class="info-section">
+                <h4><i class="fas fa-users-cog"></i> System Users Overview</h4>
+                <p>Complete list of all registered users in the CRYPT-DAC system with their respective roles and access permissions.</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-id-badge"></i> User ID</th>
+                        <th><i class="fas fa-user"></i> First Name</th>
+                        <th><i class="fas fa-user"></i> Last Name</th>
+                        <th><i class="fas fa-envelope"></i> Email</th>
+                        <th><i class="fas fa-briefcase"></i> Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emp in protected_msg %}
+                    <tr>
+                        <td>{{ emp['user_id'] }}</td>
+                        <td>{{ emp['first name'] }}</td>
+                        <td>{{ emp['last name'] }}</td>
+                        <td>{{ emp['email'] }}</td>
+                        <td>
+                            <span class="role-badge role-{{ emp['role'] | lower }}">
+                                {{ emp['role'] }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <div class="back-link">
+            <a href="{{url_for('main')}}"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>
